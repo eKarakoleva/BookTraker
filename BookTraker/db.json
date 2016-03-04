@@ -1,0 +1,73 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "fname": "UserF",
+      "lname": "UserL",
+      "username": "First_User",
+      "password": "123aaa",
+      "email": "user@gmail.com"
+    }
+  ],
+  "administrator": [
+    {
+      "id": 1,
+      "username": "Admin",
+      "password": "123admin",
+      "email": "admin@gmail.com"
+    }
+  ],
+  "genres": [
+    {
+      "id": 1,
+      "genre": "Young Adult"
+    },
+    {
+      "id": 2,
+      "genre": "Thriller"
+    },
+    {
+      "id": 3,
+      "genre": "Crime"
+    }
+  ],
+  "book_list": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "name": "City of Bones",
+      "genre": "Young Adult",
+      "autor": "Cassandra Clare",
+      "total_pages": 485,
+      "start_book": "2016-02-21 20:00",
+      "finish_book": "2016-03-03 21:18",
+      "reading_time": "12:1:18:20",
+      "status": 2
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "name": "Master of the Game",
+      "genre": "Thriller",
+      "autor": "Sidney Sheldon",
+      "total_pages": 489,
+      "start_book": "2016-02-25 13:00",
+      "finish_book": "2016-03-28 13:00",
+      "reading_time": "6:0:0:0",
+      "status": 2
+    }
+  ],
+  "book_statistic": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "total_pages": 485,
+      "most_read_genre": "Young Adult",
+      "most_read_autor": "Cassandra Clare",
+      "most_book_time": "12:1:18:20",
+      "least_book_time": "6:0:0:0",
+      "total_books": 2,
+      "total_reading_time": "18:1:18:20"
+    }
+  ]
+}
