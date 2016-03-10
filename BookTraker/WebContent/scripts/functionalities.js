@@ -53,7 +53,6 @@ $(document).ready(function() {
 				
 				promise.then(function(response) {
 					if(checkIfUserDataExist(username,mail,response)){
-						console.log(response);
 						user_id = response.length + 1;
 						var user = {
 							id: user_id,
@@ -86,21 +85,21 @@ $(document).ready(function() {
 	function loginCheck(arr,username,password){
 		var name = 0;
 		var pass = 0;
+		var id = 0;
 		var found = arr.some(function (el) {
 			if(el.username == username && el.password == password){
+				id = el.id;
 				if(el.username == username){
 					name = 1;
-					
 				}
 				if(el.password == password){
 					pass = 1;
-					
 				}
 			}
 		});	
 		
 		if(pass == 1 && name == 1){
-			return true;
+			return id;
 		}else{
 			return false;
 		}
@@ -115,20 +114,21 @@ $(document).ready(function() {
 				method: "GET",
 				dataType: "json"
 			}).then(function(response) {
-				console.log(response);
-				 if(loginCheck(response,username,password)){
+				
+				var userId = loginCheck(response,username,password);
+				 if(userId !== false){
 					 alert('login');
 					 $('input#signin_password').val("");
 					 $('input#login_username').val("");
 					 $('.login-modal').hide();
 					 $('.modal-backdrop').hide();
+					 document.cookie="userId="+userId+"; username="+username+";";
 				 }else{
 					 alert("Wrong username or password");
 				 }
-				
+				console.log(document.cookie);
 			});
 		});
-
 	}
 	
 

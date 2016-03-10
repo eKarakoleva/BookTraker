@@ -7,6 +7,22 @@
       "username": "First_User",
       "password": "123aaa",
       "email": "user@gmail.com"
+    },
+    {
+      "id": 2,
+      "fname": "Elena",
+      "lname": "Karakoleva",
+      "username": "anele21",
+      "password": "anele21",
+      "email": "anele21@abv.bg"
+    },
+    {
+      "id": 3,
+      "fname": "Елена",
+      "lname": "Караколева",
+      "username": "hellena",
+      "password": "admin",
+      "email": "anele211@abv.bg"
     }
   ],
   "administrator": [
@@ -34,7 +50,8 @@
   "book_list": [
     {
       "id": 1,
-      "user_id": 1,
+      "user_id": 2,
+      "picture_url": "https://upload.wikimedia.org/wikipedia/en/0/0f/City_of_Bones.jpg",
       "name": "City of Bones",
       "genre": "Young Adult",
       "autor": "Cassandra Clare",
@@ -47,6 +64,7 @@
     {
       "id": 2,
       "user_id": 1,
+      "picture_url": "http://d.gr-assets.com/books/1170095440l/43330.jpg",
       "name": "Master of the Game",
       "genre": "Thriller",
       "autor": "Sidney Sheldon",
