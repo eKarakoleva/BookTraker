@@ -61,4 +61,10 @@ $(document).ready(function() {
 			$(".row").append(a);
 		});
 	});
+
+	 $( "#book_start_time" ).datepicker();
+	 $( "#book_start_time" ).removeClass('form-control hasDatepicker');
+	 $( "#book_start_time" ).addClass('form-control');
+	 
+	 $('#datetimepicker').data("DateTimePicker").FUNCTION();
 });
