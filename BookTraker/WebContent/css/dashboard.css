@@ -122,6 +122,7 @@
             text-align: center;
             top: -20px;
             width: 100%;
+
         }
         
         .col-lg-4 {
@@ -133,3 +134,4 @@
 			height: 100%;
 		}
 		
+		.datepicker{z-index:1151 !important;}

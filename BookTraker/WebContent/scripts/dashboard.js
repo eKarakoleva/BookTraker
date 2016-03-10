@@ -2,6 +2,7 @@ $(document).ready(function() {
 	"use strict";
 	
 	var LIST_ENDPOINT = "http://localhost:3000/book_list";
+	var GENRES_ENDPOINT = "http://localhost:3000/genres";
 	function bookEndpoint(bookId) {
 		return LIST_ENDPOINT + "/" + bookId;
 	}
@@ -9,47 +10,54 @@ $(document).ready(function() {
 	var userInfo = document.cookie.split('=');
 	var userName = userInfo[1].split(';');
 	$('#user.dropdown-toggle').text(userName[0]);
-	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");
-	console.log(document.cookie);
-	$.ajax(LIST_ENDPOINT, {
-		method: "GET",
-		dataType: "json"
-	}).then(function(response) {
-		console.log(response);
-	});
+	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");	
 	
+	function listBooks(){
+		$.ajax(LIST_ENDPOINT, {
+			method: "GET",
+			data: {
+				user_id: userInfo[2]
+			},
+			dataType: "json"
+		}).then(function(response) { 
+			_.forEach(response, function(book) {
+				bookElement(book.id,book.picture_url,book.name,book.autor,book.genre,book.start_book,book.finish_book);
+			});
+			$('button.edit_book').mouseover(function() {
+				$(this).parent().children('div').prop('display','none');
+				var header = $(this).parent().children('div');
+				header.removeClass('header');
+			});
+			$('button.edit_book').on("mouseleave", function() {
+				var header = $(this).parent().children('div');
+				header.addClass('header');
+			 });
+		});
+	}
 	
-	$.ajax(LIST_ENDPOINT, {
-		method: "GET",
-		data: {
-			user_id: userInfo[2]
-		},
-		dataType: "json"
-	}).then(function(response) {
-		 		
-		_.forEach(response, function(book) {
-			console.log(book);
+	function bookElement(id,picture_url,name,autor,genre,start_book,finish_book){
 			var a = '<div class="col-lg-4">\
-		            <div class="form_hover" style=\'background-image: url('+book.picture_url+'); background-color: #428BCA; background-size: cover\'>\
-		                <div class="header">\
+		            <div class="form_hover" style=\'background-image: url('+picture_url+'); background-color: #428BCA; background-size: cover\'>\
+		            <button type="button" id='+id+' class="btn btn-success edit_book">Edit</button>\
+		            <div id="book_header_id" class="header">\
 		                    <div class="blur"></div>\
 		                    <div class="header-text">\
 		                        <div class="panel panel-success" style="height: 247px;">\
 		                            <div class="panel-heading">\
-		                                <h3 style="color: #428BCA;">'+book.name+'</h3>\
+		                                <h3 style="color: #428BCA;">'+name+'</h3>\
 		                            </div>\
 		                            <div class="panel-body">\
 			                            <div class="form-group">\
-	                                		Autor:<b>'+book.autor+'</b>\
+	                                		Autor:<b>'+autor+'</b>\
 	                                	</div>\
 		                                <div class="form-group">\
-		                                	Genre:<b>'+book.genre+'</b>\
+		                                	Genre:<b>'+genre+'</b>\
 		                                </div>\
 		                                <div class="form-group">\
-		                                    START BOOK:<b>'+book.start_book+'</b>\
+		                                    START BOOK:<b>'+start_book+'</b>\
 		                                </div>\
 		                                <div class="form-group">\
-		                                    End reading time date:<b>'+book.finish_book+'</b>\
+		                                    End reading time date:<b>'+finish_book+'</b>\
 		                                </div>\
 		                            </div>\
 		                        </div>\
@@ -59,12 +67,122 @@ $(document).ready(function() {
 		        </div>';
 			
 			$(".row").append(a);
+	}
+	
+	function appendGenresToSelectMenu(){
+		$.ajax(GENRES_ENDPOINT, {
+			method: "GET",
+			dataType: "json"
+		}).then(function(response) {
+			_.forEach(response, function(genre) {
+				
+				var option =$("<option />");
+				option.text(genre.genre);
+				option.attr('value',genre.genre);
+				$('#book_gener').append(option);
+				
+			});
 		});
-	});
+	}
+	
+	function checkForEmptyFields(){
+		if($('#book_title').val() != "" && $('#book_autor').val() != "" && $('#book_pages').val() != "" && $('#url_cover').val() != ""){
+			return true;	
+		}
+		return false;
+	}
+	
+	
+	function getLastBookId(){
+		var promise = $.ajax(LIST_ENDPOINT, {
+			method: "GET",
+			dataType: "json"
+		}).then(function(response) {
+			var lastBookId = 0;
+				_.forEach(response, function(book) {
+					lastBookId = book.id;
+			});			
+		});
+		
+		promise.then(function(response) {
+			return lastBookId;
+		});	
+	}
+	
+	function imageExists(url, callback) {
+		  var img = new Image();
+		  img.onload = function() { callback(true); };
+		  img.onerror = function() { callback(false); };
+		  img.src = url;
+	}
+	
+	function addBook(){
+		$(document).on('click', '#add_book', function(e){
 
-	 $( "#book_start_time" ).datepicker();
-	 $( "#book_start_time" ).removeClass('form-control hasDatepicker');
-	 $( "#book_start_time" ).addClass('form-control');
-	 
-	 $('#datetimepicker').data("DateTimePicker").FUNCTION();
+				if(checkForEmptyFields()){
+					var start_reading_date = $('#start_reading_date').val();
+					var end_reading_date = $('#end_reading_date').val();
+					var url_cover = $('#url_cover').val();
+					var d1 = new Date(start_reading_date);
+					var d2 = new Date(end_reading_date);
+					if(d1.getTime() <= d2.getTime()){
+						imageExists(url_cover, function(exists) {
+							 if(exists == true){
+								var promise = $.ajax(LIST_ENDPOINT, {
+									method: "GET",
+									dataType: "json"
+								}).then(function(response) {
+									var lastBookId = 0;
+										_.forEach(response, function(book) {
+											lastBookId = book.id;
+									});	
+										return lastBookId;
+								});
+								
+								promise.then(function(response) {
+									var book = {
+											id: response+1,
+											user_id: userInfo[2],
+											name: $('#book_title').val(),
+											autor: $('#book_autor').val(),
+											genre: $('#book_gener').val(),
+											total_pages: $('#book_pages').val(),
+											start_book: start_reading_date,
+											finish_book: end_reading_date,
+											picture_url: url_cover
+											
+										};
+										$.ajax(LIST_ENDPOINT, {
+											method: "POST",
+											contentType: "application/json; charset=utf-8",
+											data: JSON.stringify(book),
+											dataType: "json"
+										}).done(function(response) {
+											
+											bookElement(response.id,response.picture_url,response.name,response.autor,response.genre,response.start_book,response.finish_book);
+											$('button.edit_book').mouseover(function() {
+												$(this).parent().children('div').prop('display','none');
+												var header = $(this).parent().children('div');
+												header.removeClass('header');
+											});
+											$('button.edit_book').on("mouseleave", function() {
+												var header = $(this).parent().children('div');
+												header.addClass('header');
+											 });
+										});
+								});	
+							 }else{alert('url');}
+						});
+					}else{
+						alert("dates");
+					}
+				}else{
+					alert("empty fields");
+				}
+		});	
+	}
+	
+	listBooks();
+	appendGenresToSelectMenu();
+	addBook();
 });

@@ -60,19 +60,6 @@
       "finish_book": "2016-03-03 21:18",
       "reading_time": "12:1:18:20",
       "status": 2
-    },
-    {
-      "id": 2,
-      "user_id": 1,
-      "picture_url": "http://d.gr-assets.com/books/1170095440l/43330.jpg",
-      "name": "Master of the Game",
-      "genre": "Thriller",
-      "autor": "Sidney Sheldon",
-      "total_pages": 489,
-      "start_book": "2016-02-25 13:00",
-      "finish_book": "2016-03-28 13:00",
-      "reading_time": "6:0:0:0",
-      "status": 2
     }
   ],
   "book_statistic": [
