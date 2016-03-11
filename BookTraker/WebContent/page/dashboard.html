@@ -98,7 +98,7 @@
 	       	<label>Gener</label>
 				<div class="input-group">
 					<div class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></div>
-					<select id="book_gener" class="form-control">
+					<select id="book_genre" class="form-control">
 					</select>
 				</div>
 			</div>
@@ -158,6 +158,90 @@
 	    </div>
 	 </div>
 </div>
+
+
+	<div id="editBookModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div id="edit_book_modal" class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="edit_modal-title">Add new book</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="form-group">
+		       	<label>Book title</label>
+				<div class="input-group">
+						<div class="input-group-addon"><i class="glyphicon glyphicon-book"></i></div>
+						<input type="text" class="form-control" id="edit_book_title" placeholder="Book tite">
+				</div>
+			</div>
+	       	<div class="form-group">
+	       	<label>Book autor</label>
+				<div class="input-group">
+					<div class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></div>
+					<input type="text" class="form-control" id="edit_book_autor" placeholder="Book autor">
+				</div>
+			</div>
+
+			<div class="form-group">
+	       	<label>Gener</label>
+				<div class="input-group">
+					<div class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></div>
+					<select id="edit_book_genre" class="form-control">
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+	       	<label>Total book pages</label>
+				<div class="input-group">
+					<div class="input-group-addon"><i class="glyphicon glyphicon-folder-open"></i></div>
+					<input type="text" class="form-control" id="edit_book_pages" placeholder="Total book pages">
+				</div>
+			</div>
+			
+			<div class="form-group">
+            	<div class="bootstrap-iso">
+            	<label>Start reading date</label>
+            		<div class="input-group"> <!-- Date input -->
+				        <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
+				        <input class="form-control" id="edit_start_reading_date" name="date" placeholder="MM/DD/YYY" type="text"/>
+      				</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+            	<div class="bootstrap-iso">
+            	<label>End reading date</label>
+            		<div class="input-group"> <!-- Date input -->
+				        <div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
+				        <input class="form-control" id="edit_end_reading_date" name="date" placeholder="MM/DD/YYY" type="text"/>
+      				</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+	       	<label>URL for picture's cover</label>
+				<div class="input-group">
+					<div class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></div>
+					<input type="text" class="form-control" id="edit_url_cover" placeholder="URL for picture's cover">
+				</div>
+			</div>
+
+</div>
+
+	      <div class="modal-footer">
+	      <button type="button" class="btn btn-primary" id="edit_book" data-dismiss="modal">Save</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
+
+
 
 <script>
     var date_input=$('input[name="date"]'); //our date input has the name "date"

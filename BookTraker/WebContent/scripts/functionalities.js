@@ -122,7 +122,7 @@ $(document).ready(function() {
 					 $('input#login_username').val("");
 					 $('.login-modal').hide();
 					 $('.modal-backdrop').hide();
-					 document.cookie="userId="+userId+"; username="+username+";";
+					 document.cookie="username="+username+", userId="+userId+";";
 				 }else{
 					 alert("Wrong username or password");
 				 }

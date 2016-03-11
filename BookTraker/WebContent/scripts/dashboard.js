@@ -7,16 +7,19 @@ $(document).ready(function() {
 		return LIST_ENDPOINT + "/" + bookId;
 	}
 	
-	var userInfo = document.cookie.split('=');
-	var userName = userInfo[1].split(';');
-	$('#user.dropdown-toggle').text(userName[0]);
+	var userInfo = document.cookie.split(',');
+	var userName = userInfo[0].split('=');
+	var userName = userName[1];
+	var userId = userInfo[1].split("=");
+	var userId = userId[1];
+	$('#user.dropdown-toggle').text(userName);
 	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");	
 	
 	function listBooks(){
 		$.ajax(LIST_ENDPOINT, {
 			method: "GET",
 			data: {
-				user_id: userInfo[2]
+				user_id: userId
 			},
 			dataType: "json"
 		}).then(function(response) { 
@@ -79,10 +82,12 @@ $(document).ready(function() {
 				var option =$("<option />");
 				option.text(genre.genre);
 				option.attr('value',genre.genre);
-				$('#book_gener').append(option);
+				$('#book_genre').append(option);
+				$('#edit_book_genre').append(option);
+				
 				
 			});
-		});
+		}); 
 	}
 	
 	function checkForEmptyFields(){
@@ -142,7 +147,7 @@ $(document).ready(function() {
 								promise.then(function(response) {
 									var book = {
 											id: response+1,
-											user_id: userInfo[2],
+											user_id: userId,
 											name: $('#book_title').val(),
 											autor: $('#book_autor').val(),
 											genre: $('#book_gener').val(),
@@ -160,6 +165,7 @@ $(document).ready(function() {
 										}).done(function(response) {
 											
 											bookElement(response.id,response.picture_url,response.name,response.autor,response.genre,response.start_book,response.finish_book);
+											$('#add_book_modal').find('input').val("");
 											$('button.edit_book').mouseover(function() {
 												$(this).parent().children('div').prop('display','none');
 												var header = $(this).parent().children('div');
@@ -181,6 +187,33 @@ $(document).ready(function() {
 				}
 		});	
 	}
+	
+	$(document).on('click','.edit_book',function(e){
+		e.preventDefault();
+		var book_id = $(this).attr('id');
+		
+		var promiseEdit = $.ajax(bookEndpoint(book_id), {
+			method: "GET",
+			dataType: "json"
+		}).then(function(response) {
+			return response;
+		});
+		
+		promiseEdit.then(function(response) {
+			
+			$('#edit_book_title').val(response.name);
+			$('#edit_book_autor').val(response.autor);
+			$('#edit_book_genre').find('option[value=\"'+response.genre+'\"]').attr("selected", true); 
+			$('#edit_book_pages').val(response.total_pages);
+			$('#edit_start_reading_date').val(response.start_book);
+			$('#edit_end_reading_date').val(response.finish_book);
+			$('#edit_url_cover').val(response.picture_url);
+		});
+		$("#editBookModal").modal();
+		
+	});
+	
+
 	
 	listBooks();
 	appendGenresToSelectMenu();
