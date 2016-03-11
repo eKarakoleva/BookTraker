@@ -117,7 +117,7 @@ $(document).ready(function() {
 				
 				var userId = loginCheck(response,username,password);
 				 if(userId !== false){
-					 alert('login');
+					 window.location.assign("http://localhost:8080/BookTraker/page/dashboard.html");
 					 $('input#signin_password').val("");
 					 $('input#login_username').val("");
 					 $('.login-modal').hide();

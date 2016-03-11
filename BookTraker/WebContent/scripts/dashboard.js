@@ -1,6 +1,10 @@
 $(document).ready(function() {
 	"use strict";
 	
+	if(document.cookie == ""){ 
+		window.location.assign("http://localhost:8080/BookTraker/page/index.html");
+	}
+	
 	var LIST_ENDPOINT = "http://localhost:3000/book_list";
 	var GENRES_ENDPOINT = "http://localhost:3000/genres";
 	function bookEndpoint(bookId) {
@@ -269,23 +273,32 @@ $(document).ready(function() {
 	            return false;
 	        }
 	 }
+	 
+	function deleteBook(){
+		$(document).on('click','.delete_book',function(){
+			var book_id = $(this).attr('id');
+			var this_button = $(this);
+			if(ConfirmAlert()){
+				$.ajax(bookEndpoint(book_id), {
+					method: "DELETE"
+				}).then(function(response) {
+					console.log($(this));
+					this_button.parent().parent().remove();
+				});
+			}
+		});
+	}
 	
-	$(document).on('click','.delete_book',function(){
-		var book_id = $(this).attr('id');
-		var this_button = $(this);
-		if(ConfirmAlert()){
-			$.ajax(bookEndpoint(book_id), {
-				method: "DELETE"
-			}).then(function(response) {
-				console.log($(this));
-				this_button.parent().parent().remove();
-			});
-		}
+	$(document).on('click','a#logout', function(e){
+		e.preventDefault();
+		document.cookie = 'username='+userName+'; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+		 window.location.assign("http://localhost:8080/BookTraker/page/index.html");
 	});
-	
+
 	listBooks();
 	appendGenresToSelectMenu();
 	addBook();
 	controlEditModal();
 	updateBookInfo();
+	deleteBook()
 });
