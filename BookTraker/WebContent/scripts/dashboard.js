@@ -15,6 +15,18 @@ $(document).ready(function() {
 	$('#user.dropdown-toggle').text(userName);
 	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");	
 	
+	function disableHover(selector){
+		$(selector).mouseover(function() {
+			$(this).parent().children('div').prop('display','none');
+			var header = $(this).parent().children('div');
+			header.removeClass('header');
+		});
+		$(selector).on("mouseleave", function() {
+			var header = $(this).parent().children('div');
+			header.addClass('header');
+		 });
+	}
+	
 	function listBooks(){
 		$.ajax(LIST_ENDPOINT, {
 			method: "GET",
@@ -26,15 +38,9 @@ $(document).ready(function() {
 			_.forEach(response, function(book) {
 				bookElement(book.id,book.picture_url,book.name,book.autor,book.genre,book.start_book,book.finish_book);
 			});
-			$('button.edit_book').mouseover(function() {
-				$(this).parent().children('div').prop('display','none');
-				var header = $(this).parent().children('div');
-				header.removeClass('header');
-			});
-			$('button.edit_book').on("mouseleave", function() {
-				var header = $(this).parent().children('div');
-				header.addClass('header');
-			 });
+			disableHover('button.edit_book');
+			disableHover('button.delete_book');
+			
 		});
 	}
 	
@@ -42,6 +48,7 @@ $(document).ready(function() {
 			var a = '<div class="col-lg-4">\
 		            <div class="form_hover" style=\'background-image: url('+picture_url+'); background-color: #428BCA; background-size: cover\'>\
 		            <button type="button" id='+id+' class="btn btn-success edit_book">Edit</button>\
+		            <button type="button"id='+id+' class="btn btn-danger delete_book">Delete</button>\
 		            <div id="book_header_id" class="header">\
 		                    <div class="blur"></div>\
 		                    <div class="header-text">\
@@ -78,14 +85,16 @@ $(document).ready(function() {
 			dataType: "json"
 		}).then(function(response) {
 			_.forEach(response, function(genre) {
-				
 				var option =$("<option />");
 				option.text(genre.genre);
 				option.attr('value',genre.genre);
 				$('#book_genre').append(option);
-				$('#edit_book_genre').append(option);
-				
-				
+			});
+			_.forEach(response, function(genre) {
+				var option =$("<option />");
+				option.text(genre.genre);
+				option.attr('value',genre.genre);
+				$('#edit_book_genre').append(option);	
 			});
 		}); 
 	}
@@ -125,63 +134,58 @@ $(document).ready(function() {
 		$(document).on('click', '#add_book', function(e){
 
 				if(checkForEmptyFields()){
-					var start_reading_date = $('#start_reading_date').val();
-					var end_reading_date = $('#end_reading_date').val();
-					var url_cover = $('#url_cover').val();
-					var d1 = new Date(start_reading_date);
-					var d2 = new Date(end_reading_date);
-					if(d1.getTime() <= d2.getTime()){
-						imageExists(url_cover, function(exists) {
-							 if(exists == true){
-								var promise = $.ajax(LIST_ENDPOINT, {
-									method: "GET",
-									dataType: "json"
-								}).then(function(response) {
-									var lastBookId = 0;
-										_.forEach(response, function(book) {
-											lastBookId = book.id;
-									});	
-										return lastBookId;
-								});
-								
-								promise.then(function(response) {
-									var book = {
-											id: response+1,
-											user_id: userId,
-											name: $('#book_title').val(),
-											autor: $('#book_autor').val(),
-											genre: $('#book_gener').val(),
-											total_pages: $('#book_pages').val(),
-											start_book: start_reading_date,
-											finish_book: end_reading_date,
-											picture_url: url_cover
-											
-										};
-										$.ajax(LIST_ENDPOINT, {
-											method: "POST",
-											contentType: "application/json; charset=utf-8",
-											data: JSON.stringify(book),
-											dataType: "json"
-										}).done(function(response) {
-											
-											bookElement(response.id,response.picture_url,response.name,response.autor,response.genre,response.start_book,response.finish_book);
-											$('#add_book_modal').find('input').val("");
-											$('button.edit_book').mouseover(function() {
-												$(this).parent().children('div').prop('display','none');
-												var header = $(this).parent().children('div');
-												header.removeClass('header');
+					if($.isNumeric($('#book_pages').val())){
+						var start_reading_date = $('#start_reading_date').val();
+						var end_reading_date = $('#end_reading_date').val();
+						var url_cover = $('#url_cover').val();
+						var d1 = new Date(start_reading_date);
+						var d2 = new Date(end_reading_date);
+						if(d1.getTime() <= d2.getTime()){
+							imageExists(url_cover, function(exists) {
+								 if(exists == true){
+									var promise = $.ajax(LIST_ENDPOINT, {
+										method: "GET",
+										dataType: "json"
+									}).then(function(response) {
+										var lastBookId = 0;
+											_.forEach(response, function(book) {
+												lastBookId = book.id;
+										});	
+											return lastBookId;
+									});
+									
+									promise.then(function(response) {
+										var book = {
+												id: response+1,
+												user_id: userId,
+												name: $('#book_title').val(),
+												autor: $('#book_autor').val(),
+												genre: $('#book_gener').val(),
+												total_pages: $('#book_pages').val(),
+												start_book: start_reading_date,
+												finish_book: end_reading_date,
+												picture_url: url_cover
+												
+											};
+											$.ajax(LIST_ENDPOINT, {
+												method: "POST",
+												contentType: "application/json; charset=utf-8",
+												data: JSON.stringify(book),
+												dataType: "json"
+											}).done(function(response) {
+												
+												bookElement(response.id,response.picture_url,response.name,response.autor,response.genre,response.start_book,response.finish_book);
+												$('#add_book_modal').find('input').val("");
+												disableHover('button.edit_book');
+												disableHover('button.delete_book');
 											});
-											$('button.edit_book').on("mouseleave", function() {
-												var header = $(this).parent().children('div');
-												header.addClass('header');
-											 });
-										});
-								});	
-							 }else{alert('url');}
-						});
-					}else{
-						alert("dates");
-					}
+									});	
+								 }else{alert('url');}
+							});
+						}else{
+							alert("dates");
+						}
+					}else{alert("pages");}
 				}else{
 					alert("empty fields");
 				}
@@ -219,41 +223,65 @@ $(document).ready(function() {
 		$(document).on('click','#edit_book_button', function(){
 			var book_id = $("#editBookModal").attr('data-id');
 	 		if($('#edit_book_title').val() != "" && $('#edit_book_autor').val() != "" && $('#edit_book_pages').val() != "" && $('#edit_url_cover').val() != ""){
-				var start_reading_date = $('#edit_start_reading_date').val();
-				var end_reading_date = $('#edit_end_reading_date').val();
-				var url_cover = $('#edit_url_cover').val();
-				var d1 = new Date(start_reading_date);
-				var d2 = new Date(end_reading_date);
-				if(d1.getTime() <= d2.getTime()){
-					imageExists(url_cover, function(exists) {
-						 if(exists == true){
-							var book = {
-									user_id: userId,
-									name: $('#edit_book_title').val(),
-									autor: $('#edit_book_autor').val(),
-									genre: $('#edit_book_genre').val(),
-									total_pages: $('#edit_book_pages').val(),
-									start_book: start_reading_date,
-									finish_book: end_reading_date,
-									picture_url: url_cover
-									
-								};
-							$.ajax(bookEndpoint(book_id), {
-								method: "PUT",
-								contentType: "application/json; charset=utf-8",
-								data: JSON.stringify(book),
-								dataType: "json"
-							}).then(function(response) {
-								console.log(response);
-								$('.container').children('.row').children().remove()
-								listBooks();
-							});
-						 }else{alert('url');} 
-					});
-				}else{alert('date');}
+	 			if($.isNumeric($('#edit_book_pages').val())){
+					var start_reading_date = $('#edit_start_reading_date').val();
+					var end_reading_date = $('#edit_end_reading_date').val();
+					var url_cover = $('#edit_url_cover').val();
+					var d1 = new Date(start_reading_date);
+					var d2 = new Date(end_reading_date);
+					if(d1.getTime() <= d2.getTime()){
+						imageExists(url_cover, function(exists) {
+							 if(exists == true){
+								var book = {
+										user_id: userId,
+										name: $('#edit_book_title').val(),
+										autor: $('#edit_book_autor').val(),
+										genre: $('#edit_book_genre').val(),
+										total_pages: $('#edit_book_pages').val(),
+										start_book: start_reading_date,
+										finish_book: end_reading_date,
+										picture_url: url_cover
+										
+									};
+								$.ajax(bookEndpoint(book_id), {
+									method: "PUT",
+									contentType: "application/json; charset=utf-8",
+									data: JSON.stringify(book),
+									dataType: "json"
+								}).then(function(response) {
+									console.log(response);
+									$('.container').children('.row').children().remove()
+									listBooks();
+								});
+							 }else{alert('url');} 
+						});
+					}else{alert('date');}
+	 			}else{alert("pages");}
 			}else{alert('empty');}
 		});
 	}
+	
+	 function ConfirmAlert() {
+		 var r = confirm("Are you sure?");
+		 	if (r == true) {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	 }
+	
+	$(document).on('click','.delete_book',function(){
+		var book_id = $(this).attr('id');
+		var this_button = $(this);
+		if(ConfirmAlert()){
+			$.ajax(bookEndpoint(book_id), {
+				method: "DELETE"
+			}).then(function(response) {
+				console.log($(this));
+				this_button.parent().parent().remove();
+			});
+		}
+	});
 	
 	listBooks();
 	appendGenresToSelectMenu();

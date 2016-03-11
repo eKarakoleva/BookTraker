@@ -134,4 +134,22 @@
 			height: 100%;
 		}
 		
-		.datepicker{z-index:1151 !important;}
+		.datepicker{
+			z-index:1151 
+			!important;
+		}
+		
+		.delete_book {
+			float: right;
+    		text-align: left;
+		}
+		
+		#add_book_modal_button {
+			position: relative;
+    		right: -40%;
+		}
+		
+		#heder-text{
+			position: relative;
+    		right: -15%;
+		}
