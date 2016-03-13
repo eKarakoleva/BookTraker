@@ -49,17 +49,76 @@
   ],
   "book_list": [
     {
-      "id": 1,
       "user_id": 2,
-      "picture_url": "https://upload.wikimedia.org/wikipedia/en/0/0f/City_of_Bones.jpg",
       "name": "City of Bones",
+      "author": "Cassandra Clare",
       "genre": "Young Adult",
-      "autor": "Cassandra Clare",
       "total_pages": 485,
       "start_book": "2016-02-21 20:00",
       "finish_book": "2016-03-03 21:18",
-      "reading_time": "12:1:18:20",
-      "status": 2
+      "reading_days": 11,
+      "picture_url": "https://upload.wikimedia.org/wikipedia/en/0/0f/City_of_Bones.jpg",
+      "id": 2
+    },
+    {
+      "user_id": 2,
+      "name": "Pandemonium",
+      "author": "Cassandra Clare",
+      "genre": "Young Adult",
+      "total_pages": 354,
+      "start_book": "03/06/2016",
+      "finish_book": "04/05/2016",
+      "reading_days": 30,
+      "picture_url": "http://images5.fanpop.com/image/photos/28900000/Pandemonium-Book-Cover-pandemonium-28918696-415-627.jpg",
+      "id": 3
+    },
+    {
+      "user_id": 2,
+      "name": "Меги е най-добрата",
+      "author": "Елена",
+      "genre": "Young Adult",
+      "total_pages": 376,
+      "start_book": "02/28/2016",
+      "finish_book": "03/31/2016",
+      "reading_days": 32,
+      "picture_url": "http://dekoriram.com/image/cache/data/stikeri/5008-01-700x700.jpg",
+      "id": 4
+    },
+    {
+      "user_id": 2,
+      "name": "ааа",
+      "author": "Елена",
+      "genre": "Young Adult",
+      "total_pages": 32,
+      "start_book": "03/29/2016",
+      "finish_book": "03/29/2016",
+      "reading_days": 0,
+      "picture_url": "http://dekoriram.com/image/cache/data/stikeri/5008-01-700x700.jpg",
+      "id": 5
+    },
+    {
+      "user_id": 2,
+      "name": "сссс",
+      "author": "Елена",
+      "genre": "Young Adult",
+      "total_pages": 478,
+      "start_book": "03/24/2016",
+      "finish_book": "04/08/2016",
+      "reading_days": 15,
+      "picture_url": "http://dekoriram.com/image/cache/data/stikeri/5008-01-700x700.jpg",
+      "id": 6
+    },
+    {
+      "user_id": 2,
+      "name": "234aaa",
+      "author": "dsa",
+      "genre": "Thriller",
+      "total_pages": 345,
+      "start_book": "02/28/2016",
+      "finish_book": "03/02/2016",
+      "reading_days": 3,
+      "picture_url": "http://dekoriram.com/image/cache/data/stikeri/5008-01-700x700.jpg",
+      "id": 7
     }
   ],
   "book_statistic": [
@@ -68,7 +127,7 @@
       "user_id": 1,
       "total_pages": 485,
       "most_read_genre": "Young Adult",
-      "most_read_autor": "Cassandra Clare",
+      "most_read_author": "Cassandra Clare",
       "most_book_time": "12:1:18:20",
       "least_book_time": "6:0:0:0",
       "total_books": 2,
