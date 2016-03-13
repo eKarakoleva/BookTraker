@@ -16,7 +16,7 @@
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../scripts/statistics.js"></script>
+    <script type="text/javascript" src="../scripts/statistics_least.js"></script>
     
     
     <style>
@@ -82,7 +82,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-fw fa-bell-o"></i>Statistics</a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="http://localhost:8080/BookTraker/page/statistics.html"><i class="fa fa-fw fa-thumbs-o-up"></i><span class="badge">Most...</span></a></li>
-                            <li><a href="http://localhost:8080/BookTraker/page/statistics_least.html"><i class="fa fa-fw fa-thumbs-o-up"></i><span class="badge">Least...</span></a></li>
+                            <li><a href="#"><i class="fa fa-fw fa-thumbs-o-up"></i><span class="badge">Least...</span></a></li>
                             <li><a href="#"><i class="fa fa-fw fa-thumbs-o-up"></i><span class="badge">Total...</span></a></li>
                         </ul>
                     </li>
@@ -102,23 +102,23 @@
    
   <div class="stat_list" style="text-align: center"> 
   
-    <label>Most readed authors</label>
-	<ul class="list-group author_list">
+    <label>Least readed authors</label>
+	<ul class="list-group least_author_list">
 	
 	</ul>
 	
-	 <label class="reading_label">Most readed genres</label>
-	<ul class="list-group genres">
+	 <label class="reading_label">Least readed genres</label>
+	<ul class="list-group least_genres">
 	
 	</ul>
 	
-	<label class="reading_label">Longets book</label>
-	<ul class="list-group pages">
+	<label class="reading_label">Shortest book</label>
+	<ul class="list-group least_pages">
 	
 	</ul>
 	
 	<label class="reading_label">Reading days</label>
-	<ul class="list-group days">
+	<ul class="list-group least_days">
 	
 	</ul>
 

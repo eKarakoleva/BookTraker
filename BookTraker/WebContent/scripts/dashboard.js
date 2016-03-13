@@ -268,7 +268,6 @@ $(document).ready(function() {
 									data: JSON.stringify(book),
 									dataType: "json"
 								}).then(function(response) {
-									console.log(response);
 									$('.container').children('.row').children().remove()
 									listBooks();
 								});

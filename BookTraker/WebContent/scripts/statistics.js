@@ -48,8 +48,6 @@ $(document).ready(function() {
 			}
 			
 			for (var key in authors) {
-				console.log(key);
-			    console.log(authors[key]);
 			    var list = '<li class="list-group-item">'+key+' | books:'+authors[key]+'</li>';
 			    $('ul.author_list').append(list);
 			}
@@ -96,7 +94,6 @@ $(document).ready(function() {
 			    $('ul.genres').append(list);
 			   
 			}
-			console.log(book);
 		});
 	}
 	
@@ -112,7 +109,6 @@ $(document).ready(function() {
 				response.sort(function(a, b){
 					 return b.total_pages-a.total_pages
 				});
-				console.log(response.length);
 				var j = 0;
 				_.forEach(response, function(book) {
 					var list = '<li class="list-group-item">'+book.name+' | pages:'+book.total_pages+'</li>';
@@ -135,7 +131,6 @@ $(document).ready(function() {
 				response.sort(function(a, b){
 					 return b.reading_days-a.reading_days
 				});
-				console.log(response.length);
 				var j = 0;
 				_.forEach(response, function(book) {
 					var list = '<li class="list-group-item">'+book.name+' | reading days:'+book.reading_days+'</li>';
@@ -146,11 +141,9 @@ $(document).ready(function() {
 			});
 	}
 	
-	sortByReadingDaysDesc();	
+	sortByAuthorsDesc();
+	sortByReadingDaysDesc();
 	sortByPagesDesc();
 	sortByGenresDesc();
-	sortByAuthorsDesc();
-	
-	
 	
 });
