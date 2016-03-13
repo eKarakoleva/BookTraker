@@ -31,6 +31,8 @@ $(document).ready(function() {
 				}else{
 					if(book_stat == 'genre'){
 						array_prop = book.genre;
+					}else{
+						array_prop = book.name;
 					}
 				}
 				if(typeof books[array_prop]== 'undefined' && books[array_prop] == null){
@@ -45,8 +47,38 @@ $(document).ready(function() {
 		});
 	}
 	
+	function total(book_stat,selector){
+		var books = [];
+		$.ajax(LIST_ENDPOINT, {
+			method: "GET",
+			data: {
+				user_id: userId
+			},
+			dataType: "json"
+		}).then(function(response) { 
+			var total = 0;
+			_.forEach(response, function(book) {
+				if(book_stat == 'reading_days'){
+					total += book.reading_days;
+					console.log(total);
+				}else{
+					if(book_stat == 'total_pages'){
+						total += book.total_pages;
+					}
+				}
+			});	
+			var list = '<li class="list-group-item">'+total+'</li>';
+		    $(selector).append(list);
+	
+		});
+	}
+
 
 	stat('author','ul.total_author_list');
 	stat('genre','ul.total_genres');
+	stat('name','ul.total_books');
+	
+	total('total_pages','ul.total_pages');
+	total('reading_days','ul.total_days');
 	
 });
