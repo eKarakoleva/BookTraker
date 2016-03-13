@@ -7,7 +7,9 @@ $(document).ready(function() {
 	var userName = userInfo[0].split('=');
 	var userName = userName[1];
 	var userId = userInfo[1].split("=");
-	var userId = userId[1];	
+	var userId = userId[1];
+	$('#user.dropdown-toggle').text(userName);
+	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");	
 	
 	if(document.cookie == ""){ 
 		window.location.assign("http://localhost:8080/BookTraker/page/index.html");

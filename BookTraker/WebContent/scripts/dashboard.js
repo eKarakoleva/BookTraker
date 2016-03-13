@@ -155,8 +155,7 @@ $(document).ready(function() {
 						var url_cover = $('#url_cover').val();
 						var d1 = new Date(start_reading_date);
 						var d2 = new Date(end_reading_date);
-						
-						alert(daydiff(d1, d2));
+
 						if(d1.getTime() <= d2.getTime()){
 							imageExists(url_cover, function(exists) {
 								 if(exists == true){
