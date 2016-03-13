@@ -119,10 +119,33 @@ $(document).ready(function() {
 			});
 	}
 	
+	function sortByReadingDaysAsc(){
+		var books = {};
+			$.ajax(LIST_ENDPOINT, {
+				method: "GET",
+				data: {
+					user_id: userId
+				},
+				dataType: "json"
+			}).then(function(response) { 
+				response.sort(function(a, b){
+					 return a.reading_days-b.reading_days
+				});
+				var j = 0;
+				_.forEach(response, function(book) {
+					var list = '<li class="list-group-item">'+book.name+' | reading days:'+book.reading_days+'</li>';
+				    $('ul.least_days').append(list);
+				    j++;
+				    if(j == 3){return false};
+				});	
+			});
+	}
+	
 	
 	sortByAuthorsAsc();
 	sortByGenresAsc();
 	sortByPagesAsc();
+	sortByReadingDaysAsc();
 	
 	
 });
