@@ -60,7 +60,6 @@ $(document).ready(function() {
 			_.forEach(response, function(book) {
 				if(book_stat == 'reading_days'){
 					total += book.reading_days;
-					console.log(total);
 				}else{
 					if(book_stat == 'total_pages'){
 						total += book.total_pages;
