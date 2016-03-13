@@ -24,8 +24,8 @@ $(document).ready(function() {
 			},
 			dataType: "json"
 		}).then(function(response) { 
+			  var array_prop = "";
 			_.forEach(response, function(book) {
-				var array_prop = ""
 				if(book_stat == 'author'){
 					array_prop = book.author;
 				}else{
@@ -40,7 +40,7 @@ $(document).ready(function() {
 				}else{
 					books[array_prop] = 0;
 				}
-		});	
+			});	
 			var list = '<li class="list-group-item">'+Object.keys(books).length+'</li>';
 		    $(selector).append(list);
 	
@@ -68,7 +68,6 @@ $(document).ready(function() {
 			});	
 			var list = '<li class="list-group-item">'+total+'</li>';
 		    $(selector).append(list);
-	
 		});
 	}
 

@@ -143,11 +143,9 @@ $(document).ready(function() {
 			});
 	}
 	
-	
 	sortByAuthorsAsc();
 	sortByGenresAsc();
 	sortByPagesAsc();
 	sortByReadingDaysAsc();
-	
 	
 });

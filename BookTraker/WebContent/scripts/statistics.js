@@ -30,7 +30,7 @@ $(document).ready(function() {
 				}else{
 					books[book.author] = books[book.author]+1;
 				}
-		});	
+			});	
 			var tuples = [];
 			
 			for (var key in books) tuples.push([key, books[key]]);
@@ -53,7 +53,6 @@ $(document).ready(function() {
 			    var list = '<li class="list-group-item">'+key+' | books:'+authors[key]+'</li>';
 			    $('ul.author_list').append(list);
 			}
-			
 		});
 	}
 	
@@ -77,7 +76,6 @@ $(document).ready(function() {
 				}
 		});	
 			var tuples = [];
-	
 			for (var key in books) tuples.push([key, books[key]]);
 			tuples.sort(function(a, b) {
 			    a = a[1];
