@@ -97,8 +97,32 @@ $(document).ready(function() {
 		});
 	}
 	
+	function sortByPagesAsc(){
+		var books = {};
+			$.ajax(LIST_ENDPOINT, {
+				method: "GET",
+				data: {
+					user_id: userId
+				},
+				dataType: "json"
+			}).then(function(response) { 
+				response.sort(function(a, b){
+					 return a.total_pages-b.total_pages
+				});
+				var j = 0;
+				_.forEach(response, function(book) {
+					var list = '<li class="list-group-item">'+book.name+' | pages:'+book.total_pages+'</li>';
+				    $('ul.least_pages').append(list);
+				    j++;
+				    if(j == 3){return false};
+				});	
+			});
+	}
+	
+	
 	sortByAuthorsAsc();
 	sortByGenresAsc();
+	sortByPagesAsc();
 	
 	
 });
