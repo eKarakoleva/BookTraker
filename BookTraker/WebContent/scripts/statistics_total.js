@@ -15,8 +15,8 @@ $(document).ready(function() {
 		window.location.assign("http://localhost:8080/BookTraker/page/index.html");
 	}
 	
-	function totalAuthors(){
-		var books = {};
+	function stat(book_stat,selector){
+		var books = [];
 		$.ajax(LIST_ENDPOINT, {
 			method: "GET",
 			data: {
@@ -25,19 +25,28 @@ $(document).ready(function() {
 			dataType: "json"
 		}).then(function(response) { 
 			_.forEach(response, function(book) {
-				if(typeof books[book.author]== 'undefined' && books[book.author] == null){
-					books[book.author] = 0;
+				var array_prop = ""
+				if(book_stat == 'author'){
+					array_prop = book.author;
 				}else{
-					books[book.author] = 0;
+					if(book_stat == 'genre'){
+						array_prop = book.genre;
+					}
+				}
+				if(typeof books[array_prop]== 'undefined' && books[array_prop] == null){
+					books[array_prop] = 0;
+				}else{
+					books[array_prop] = 0;
 				}
 		});	
-
-			    var list = '<li class="list-group-item">'+Object.keys(books).length+'</li>';
-			    $('ul.total_author_list').append(list);
-			
+			var list = '<li class="list-group-item">'+Object.keys(books).length+'</li>';
+		    $(selector).append(list);
+	
 		});
 	}
 	
-	totalAuthors();
+
+	stat('author','ul.total_author_list');
+	stat('genre','ul.total_genres');
 	
 });
