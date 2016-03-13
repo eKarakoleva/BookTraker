@@ -56,7 +56,49 @@ $(document).ready(function() {
 		});
 	}
 	
+	function sortByGenresAsc(){
+		var books = [];
+		$.ajax(LIST_ENDPOINT, {
+			method: "GET",
+			data: {
+				user_id: userId
+			},
+			dataType: "json"
+		}).then(function(response) { 
+			_.forEach(response, function(book) {
+				
+				if(typeof books[book.genre]== 'undefined' && books[book.genre] == null){
+					books[book.genre] = 0;
+					books[book.genre] = books[book.genre]+1;
+				}else{
+					books[book.genre] = books[book.genre]+1;
+				}
+		});	
+			var tuples = [];
+	
+			for (var key in books) tuples.push([key, books[key]]);
+			tuples.sort(function(a, b) {
+			    a = a[1];
+			    b = b[1];
+	
+			    return a < b ? -1 : (a > b ? 1 : 0);
+			});
+			
+			var book = [];
+			if(tuples.length < 3){var len = tuples.length;}else{var len = 3;};
+			for (var i = 0; i < len; i++) {
+			    var key = tuples[i][0];
+			    var value = tuples[i][1];
+			    book[key] = value;
+			    var list = '<li class="list-group-item">'+key+' | books:'+book[key]+'</li>';
+			    $('ul.least_genres').append(list);
+			   
+			}
+		});
+	}
+	
 	sortByAuthorsAsc();
+	sortByGenresAsc();
 	
 	
 });
