@@ -4,9 +4,10 @@
       "id": 1,
       "fname": "UserF",
       "lname": "UserL",
-      "username": "First_User",
+      "username": "anele",
       "password": "123aaa",
-      "email": "user@gmail.com"
+      "email": "user@gmail.com",
+      "status": 2
     },
     {
       "id": 2,
@@ -14,15 +15,8 @@
       "lname": "Karakoleva",
       "username": "anele21",
       "password": "anele21",
-      "email": "anele21@abv.bg"
-    },
-    {
-      "id": 3,
-      "fname": "Елена",
-      "lname": "Караколева",
-      "username": "hellena",
-      "password": "admin",
-      "email": "anele211@abv.bg"
+      "email": "anele21@abv.bg",
+      "status": 1
     }
   ],
   "administrator": [
@@ -50,7 +44,7 @@
   "book_list": [
     {
       "user_id": 2,
-      "name": "City of Bones",
+      "name": "City of Bones1",
       "author": "Cassandra Clare",
       "genre": "Young Adult",
       "total_pages": 485,
@@ -71,67 +65,6 @@
       "reading_days": 30,
       "picture_url": "http://images5.fanpop.com/image/photos/28900000/Pandemonium-Book-Cover-pandemonium-28918696-415-627.jpg",
       "id": 3
-    },
-    {
-      "user_id": 2,
-      "name": "Меги е най-добрата",
-      "author": "Елена",
-      "genre": "Young Adult",
-      "total_pages": 376,
-      "start_book": "02/28/2016",
-      "finish_book": "03/31/2016",
-      "reading_days": 32,
-      "picture_url": "http://dekoriram.com/image/cache/data/stikeri/5008-01-700x700.jpg",
-      "id": 4
-    },
-    {
-      "user_id": 2,
-      "name": "ааа",
-      "author": "Елена",
-      "genre": "Young Adult",
-      "total_pages": 32,
-      "start_book": "03/29/2016",
-      "finish_book": "03/29/2016",
-      "reading_days": 0,
-      "picture_url": "http://dekoriram.com/image/cache/data/stikeri/5008-01-700x700.jpg",
-      "id": 5
-    },
-    {
-      "user_id": 2,
-      "name": "сссс",
-      "author": "Елена",
-      "genre": "Young Adult",
-      "total_pages": 478,
-      "start_book": "03/24/2016",
-      "finish_book": "04/08/2016",
-      "reading_days": 15,
-      "picture_url": "http://dekoriram.com/image/cache/data/stikeri/5008-01-700x700.jpg",
-      "id": 6
-    },
-    {
-      "user_id": 2,
-      "name": "234aaa",
-      "author": "dsa",
-      "genre": "Thriller",
-      "total_pages": 345,
-      "start_book": "02/28/2016",
-      "finish_book": "03/02/2016",
-      "reading_days": 3,
-      "picture_url": "http://dekoriram.com/image/cache/data/stikeri/5008-01-700x700.jpg",
-      "id": 7
-    }
-  ],
-  "book_statistic": [
-    {
-      "id": 1,
-      "user_id": 1,
-      "total_pages": 485,
-      "most_read_genre": "Young Adult",
-      "most_read_author": "Cassandra Clare",
-      "most_book_time": "12:1:18:20",
-      "least_book_time": "6:0:0:0",
-      "total_books": 2,
-      "total_reading_time": "18:1:18:20"
     }
   ]
 }

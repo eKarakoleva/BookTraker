@@ -3,15 +3,21 @@ $(document).ready(function() {
 	
 	var LIST_ENDPOINT = "http://localhost:3000/book_list";
 	
-	var userInfo = document.cookie.split(',');
-	var userName = userInfo[0].split('=');
-	var userName = userName[1];
-	var userId = userInfo[1].split("=");
-	var userId = userId[1];
-	$('#user.dropdown-toggle').text(userName);
+	function readCookie(name) {
+	    var nameEQ = name + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0;i < ca.length;i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	    }
+	    return null;
+	}
+	var userId = readCookie('userId');
+	$('#user.dropdown-toggle').text(readCookie('username'));
 	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");	
 	
-	if(document.cookie == ""){ 
+	if(userId == null){ 
 		window.location.assign("http://localhost:8080/BookTraker/page/index.html");
 	}
 	

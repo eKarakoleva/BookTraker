@@ -1,9 +1,7 @@
 $(document).ready(function() {
 	"use strict";
 	
-	if(document.cookie == ""){ 
-		window.location.assign("http://localhost:8080/BookTraker/page/index.html");
-	}
+	
 	
 	var LIST_ENDPOINT = "http://localhost:3000/book_list";
 	var GENRES_ENDPOINT = "http://localhost:3000/genres";
@@ -11,12 +9,38 @@ $(document).ready(function() {
 		return LIST_ENDPOINT + "/" + bookId;
 	}
 	
-	var userInfo = document.cookie.split(',');
-	var userName = userInfo[0].split('=');
-	var userName = userName[1];
-	var userId = userInfo[1].split("=");
-	var userId = userId[1];
-	$('#user.dropdown-toggle').text(userName);
+	function readCookie(name) {
+	    var nameEQ = name + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0;i < ca.length;i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	    }
+	    return null;
+	}
+	
+	function createCookie(name,value,days) {
+	    if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime()+(days*24*60*60*1000));
+	        var expires = "; expires="+date.toGMTString();
+	    }
+	    else var expires = "";
+	    document.cookie = name+"="+value+expires+"; path=/";
+	}
+	
+	function eraseCookie(name) {
+	    createCookie(name,"",-1);
+	}
+	
+	if(readCookie('userId') == null){ 
+		window.location.assign("http://localhost:8080/BookTraker/page/index.html");
+	}
+	
+	var userId = readCookie('userId');
+
+	$('#user.dropdown-toggle').text(readCookie('username'));
 	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");	
 	
 	function disableHover(selector){
@@ -147,7 +171,6 @@ $(document).ready(function() {
 	
 	function addBook(){
 		$(document).on('click', '#add_book', function(e){
-
 				if(checkForEmptyFields()){
 					if($.isNumeric($('#book_pages').val())){
 						var start_reading_date = $('#start_reading_date').val();
@@ -172,7 +195,6 @@ $(document).ready(function() {
 									
 									promise.then(function(response) {
 										var book = {
-												id: response+1,
 												user_id: userId,
 												name: $('#book_title').val(),
 												author: $('#book_author').val(),
@@ -304,7 +326,11 @@ $(document).ready(function() {
 	
 	$(document).on('click','a#logout', function(e){
 		e.preventDefault();
-		document.cookie = 'username='+userName+'; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+		eraseCookie('username');
+		eraseCookie('userId');
+		if(readCookie('admin') != null){
+			eraseCookie('admin');
+		}
 		 window.location.assign("http://localhost:8080/BookTraker/page/index.html");
 	});
 

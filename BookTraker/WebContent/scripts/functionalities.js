@@ -3,6 +3,18 @@ $(document).ready(function() {
 	
 	
 	var USER_ENDPOINT = "http://localhost:3000/user";
+	var ADMIN_ENDPOINT = "http://localhost:3000/administrator";
+	
+	function createCookie(name,value,days) {
+	    if (days) {
+	        var date = new Date();
+	        date.setTime(date.getTime()+(days*24*60*60*1000));
+	        var expires = "; expires="+date.toGMTString();
+	    }
+	    else var expires = "";
+	    document.cookie = name+"="+value+expires+"; path=/";
+	}
+	
 	function userEndpoint(userId) {
 		return USER_ENDPOINT + "/" + userId;
 	}
@@ -53,9 +65,7 @@ $(document).ready(function() {
 				
 				promise.then(function(response) {
 					if(checkIfUserDataExist(username,mail,response)){
-						user_id = response.length + 1;
 						var user = {
-							id: user_id,
 							fname: fname,
 							lname: lname,
 							username: username,
@@ -85,8 +95,36 @@ $(document).ready(function() {
 	function loginCheck(arr,username,password){
 		var name = 0;
 		var pass = 0;
+		var stat = 0;
 		var id = 0;
 		var found = arr.some(function (el) {
+			if(el.username == username && el.password == password && el.status == 1){
+				id = el.id;
+				if(el.username == username){
+					name = 1;
+				}
+				if(el.password == password){
+					pass = 1;
+				}
+				if(el.status == 1){
+					stat = 1;
+				}
+			}
+		});	
+		
+		if(pass == 1 && name == 1 && stat == 1){
+			return id;
+		}else{
+			return false;
+		}
+	}
+	
+	function loginAdminCheck(arr,username,password){
+		var name = 0;
+		var pass = 0;
+		var id = 0;
+		var found = arr.some(function (el) {
+			console.log(arr);
 			if(el.username == username && el.password == password){
 				id = el.id;
 				if(el.username == username){
@@ -95,6 +133,7 @@ $(document).ready(function() {
 				if(el.password == password){
 					pass = 1;
 				}
+				
 			}
 		});	
 		
@@ -103,6 +142,28 @@ $(document).ready(function() {
 		}else{
 			return false;
 		}
+	}
+	
+	function checkIfUserIsAdmin(username,password){
+		 $.ajax(ADMIN_ENDPOINT, {
+				method: "GET",
+				dataType: "json"
+			}).then(function(resp) {
+				var adminId = loginAdminCheck(resp,username,password);
+				if(adminId !== false){
+					 window.location.assign("http://localhost:8080/BookTraker/page/admin_page.html");
+					 $('input#signin_password').val("");
+					 $('input#login_username').val("");
+					 $('.login-modal').hide();
+					 $('.modal-backdrop').hide();
+					 createCookie('username',username,7);
+					 createCookie('userId',adminId,7);
+					 createCookie('admin','true',7);
+				 }else{
+					 alert('wrong username or password');
+				 }
+				
+			});
 	}
 	
 	function login(){
@@ -122,17 +183,18 @@ $(document).ready(function() {
 					 $('input#login_username').val("");
 					 $('.login-modal').hide();
 					 $('.modal-backdrop').hide();
-					 document.cookie="username="+username+", userId="+userId+";";
+					 createCookie('username',username,7);
+					 createCookie('userId',userId,7);
 				 }else{
-					 alert("Wrong username or password");
+					 checkIfUserIsAdmin(username,password);
 				 }
+					
 				console.log(document.cookie);
 			});
 		});
 	}
 	
 
-	
 	function checkIfUserDataExist(username,email,arr) {
 			var exist = 0;
 			var found = arr.some(function (el) {
