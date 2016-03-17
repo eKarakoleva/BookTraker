@@ -23,7 +23,6 @@ $(document).ready(function() {
 	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");	
 	
 	
-	
 	function sortByAuthorsAsc(){
 		var books = [];
 		$.ajax(LIST_ENDPOINT, {

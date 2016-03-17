@@ -70,7 +70,8 @@ $(document).ready(function() {
 							lname: lname,
 							username: username,
 							password: pass,
-							email: mail
+							email: mail,
+							status: 1,
 						};
 						$.ajax(USER_ENDPOINT, {
 							method: "POST",
@@ -92,80 +93,40 @@ $(document).ready(function() {
 		});
 	}
 	
-	function loginCheck(arr,username,password){
-		var name = 0;
+	function userRights(userInfo){
+		if(userInfo.status == 1){
+		    return 1;
+		}
+		
+		if(userInfo.status == 2){
+			return 2;
+		}
+		
+		if(userInfo.status == 3){
+			return 3;
+		}
+		
+		return false;
+	}
+	
+	function loginCheck(obj,username,password){
+		var user_obj = {};
 		var pass = 0;
-		var stat = 0;
-		var id = 0;
-		var found = arr.some(function (el) {
-			if(el.username == username && el.password == password && el.status == 1){
-				id = el.id;
-				if(el.username == username){
-					name = 1;
-				}
-				if(el.password == password){
-					pass = 1;
-				}
-				if(el.status == 1){
-					stat = 1;
-				}
+		_.forEach(obj, function(user) {
+			if(user.username == username && user.password == password){
+				pass = 1;
+				user_obj = user;
 			}
 		});	
-		
-		if(pass == 1 && name == 1 && stat == 1){
-			return id;
+		 
+		if(pass = 1){
+			return user_obj;
 		}else{
 			return false;
 		}
 	}
 	
-	function loginAdminCheck(arr,username,password){
-		var name = 0;
-		var pass = 0;
-		var id = 0;
-		var found = arr.some(function (el) {
-			console.log(arr);
-			if(el.username == username && el.password == password){
-				id = el.id;
-				if(el.username == username){
-					name = 1;
-				}
-				if(el.password == password){
-					pass = 1;
-				}
-				
-			}
-		});	
 		
-		if(pass == 1 && name == 1){
-			return id;
-		}else{
-			return false;
-		}
-	}
-	
-	function checkIfUserIsAdmin(username,password){
-		 $.ajax(ADMIN_ENDPOINT, {
-				method: "GET",
-				dataType: "json"
-			}).then(function(resp) {
-				var adminId = loginAdminCheck(resp,username,password);
-				if(adminId !== false){
-					 window.location.assign("http://localhost:8080/BookTraker/page/admin_page.html");
-					 $('input#signin_password').val("");
-					 $('input#login_username').val("");
-					 $('.login-modal').hide();
-					 $('.modal-backdrop').hide();
-					 createCookie('username',username,7);
-					 createCookie('userId',adminId,7);
-					 createCookie('admin','true',7);
-				 }else{
-					 alert('wrong username or password');
-				 }
-				
-			});
-	}
-	
 	function login(){
 		$(document).on('click', 'button#login_btn', function(){
 			var password = $('input#signin_password').val();
@@ -175,21 +136,33 @@ $(document).ready(function() {
 				method: "GET",
 				dataType: "json"
 			}).then(function(response) {
-				
-				var userId = loginCheck(response,username,password);
-				 if(userId !== false){
-					 window.location.assign("http://localhost:8080/BookTraker/page/dashboard.html");
+				var user = loginCheck(response,username,password);
+				 if(user !== false){
+					 
 					 $('input#signin_password').val("");
 					 $('input#login_username').val("");
 					 $('.login-modal').hide();
 					 $('.modal-backdrop').hide();
-					 createCookie('username',username,7);
-					 createCookie('userId',userId,7);
+
+					 if(user.status == 1){
+						 createCookie('username',username,7);
+						 createCookie('userId',user.id,7);
+						 window.location.assign("http://localhost:8080/BookTraker/page/dashboard.html");
+					 }else{
+						 if(user.status == 3){
+							 createCookie('username',username,7);
+							 createCookie('userId',user.id,7);
+							 createCookie('admin','true',7);
+							 window.location.assign("http://localhost:8080/BookTraker/page/admin_page.html");
+						 }else{
+							if(user.status == 2){
+								alert('sorry, you are blocked')
+							}
+						 }
+					 }
 				 }else{
-					 checkIfUserIsAdmin(username,password);
+					alert('wrong username or password');
 				 }
-					
-				console.log(document.cookie);
 			});
 		});
 	}
@@ -218,6 +191,8 @@ $(document).ready(function() {
 	    	}
 	    	return true; 
 	}
+	
+	
 	
 	loginModal();
 	registration();

@@ -43,6 +43,10 @@ $(document).ready(function() {
 	$('#user.dropdown-toggle').text(readCookie('username'));
 	$('#user.dropdown-toggle').append("<span class=\"caret\"></span>");	
 	
+	if(readCookie('admin')){	
+		$('#user_menu  li:eq(0)').before('<li><a href="http://localhost:8080/BookTraker/page/admin_page.html"><i class="glyphicon glyphicon-cog"></i> Admin page</a></li>');
+	}	
+	
 	function disableHover(selector){
 		$(selector).mouseover(function() {
 			$(this).parent().children('div').prop('display','none');
@@ -317,7 +321,6 @@ $(document).ready(function() {
 				$.ajax(bookEndpoint(book_id), {
 					method: "DELETE"
 				}).then(function(response) {
-					console.log($(this));
 					this_button.parent().parent().remove();
 				});
 			}

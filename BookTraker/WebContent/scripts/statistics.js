@@ -38,10 +38,10 @@ $(document).ready(function() {
 					books[book.author] = books[book.author]+1;
 				}
 			});	
-			var tuples = [];
+			var temp = [];
 			
-			for (var key in books) tuples.push([key, books[key]]);
-			tuples.sort(function(a, b) {
+			for (var key in books) temp.push([key, books[key]]);
+			temp.sort(function(a, b) {
 			    a = a[1];
 			    b = b[1];
 	
@@ -49,10 +49,10 @@ $(document).ready(function() {
 			});
 			
 			var authors = [];
-			if(tuples.length < 3){var len = tuples.length;}else{var len = 3;};
+			if(temp.length < 3){var len = temp.length;}else{var len = 3;};
 			for (var i = 0; i < len; i++) {
-			    var key = tuples[i][0];
-			    var value = tuples[i][1];
+			    var key = temp[i][0];
+			    var value = temp[i][1];
 			    authors[key] = value;		   
 			}
 			
@@ -82,9 +82,9 @@ $(document).ready(function() {
 					books[book.genre] = books[book.genre]+1;
 				}
 		});	
-			var tuples = [];
-			for (var key in books) tuples.push([key, books[key]]);
-			tuples.sort(function(a, b) {
+			var temp = [];
+			for (var key in books) temp.push([key, books[key]]);
+			temp.sort(function(a, b) {
 			    a = a[1];
 			    b = b[1];
 	
@@ -92,10 +92,10 @@ $(document).ready(function() {
 			});
 			
 			var book = [];
-			if(tuples.length < 3){var len = tuples.length;}else{var len = 3;};
+			if(temp.length < 3){var len = temp.length;}else{var len = 3;};
 			for (var i = 0; i < len; i++) {
-			    var key = tuples[i][0];
-			    var value = tuples[i][1];
+			    var key = temp[i][0];
+			    var value = temp[i][1];
 			    book[key] = value;
 			    var list = '<li class="list-group-item">'+key+' | books:'+book[key]+'</li>';
 			    $('ul.genres').append(list);
