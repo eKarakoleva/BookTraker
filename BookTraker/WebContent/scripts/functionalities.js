@@ -93,22 +93,6 @@ $(document).ready(function() {
 		});
 	}
 	
-	function userRights(userInfo){
-		if(userInfo.status == 1){
-		    return 1;
-		}
-		
-		if(userInfo.status == 2){
-			return 2;
-		}
-		
-		if(userInfo.status == 3){
-			return 3;
-		}
-		
-		return false;
-	}
-	
 	function loginCheck(obj,username,password){
 		var user_obj = {};
 		var pass = 0;
@@ -119,7 +103,7 @@ $(document).ready(function() {
 			}
 		});	
 		 
-		if(pass = 1){
+		if(pass == 1){
 			return user_obj;
 		}else{
 			return false;
